@@ -1,6 +1,7 @@
 package ra.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -35,10 +36,7 @@ public class Product {
     List<Image> listImage = new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "cartId")
+    @JsonIgnore
     private Cart cart;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "orderMany",joinColumns = @JoinColumn(name = "productId"),
-            inverseJoinColumns = @JoinColumn(name = "orderDetailId"))
-    private Set<OrderDetail> listOrderDetail = new HashSet<>();
 }

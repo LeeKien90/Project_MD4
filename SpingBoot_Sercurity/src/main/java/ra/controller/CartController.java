@@ -41,6 +41,7 @@ public class CartController {
             cartRespose.setPrice(cart.getProduct().getPrice());
             cartRespose.setTotalPrice(cart.getPrice());
             cartRespose.setProductName(cart.getProduct().getProductName());
+            cartRespose.setProductImage(cart.getProduct().getListImage());
             listCartRespose.add(cartRespose);
         }
         return ResponseEntity.ok(listCartRespose);

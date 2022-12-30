@@ -35,6 +35,4 @@ public class Users {
     @OneToOne
     @JoinColumn(name = "cartId")
     private Cart cart;
-    @OneToMany(mappedBy = "users")
-    List<OrderDetail> orderDetails = new ArrayList<>();
 }
