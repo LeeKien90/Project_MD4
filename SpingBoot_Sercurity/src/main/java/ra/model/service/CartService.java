@@ -8,4 +8,6 @@ public interface CartService {
     List<Cart> findAll();
     Cart save(Cart cart);
     void delete(int cartId);
+    Cart findById(int cartId);
+    List<Cart> findAllUserId(int userId);
 }

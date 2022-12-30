@@ -60,10 +60,10 @@ public class CatalogController {
     public ResponseEntity<?> deleteUser(@PathVariable("catalogId") int catalogId, @RequestBody CatalogRequest catalogRequest){
         Catalog catalog = catalogService.findById(catalogId);
         if (!catalogRequest.isCatalogStatus()){
-            catalog.setCatalogStatus(false);
+            catalog.setCatalogStatus(true);
             catalogService.save(catalog);
         }else {
-            catalog.setCatalogStatus(true);
+            catalog.setCatalogStatus(false);
             catalogService.save(catalog);
         }
         return ResponseEntity.ok(catalog);

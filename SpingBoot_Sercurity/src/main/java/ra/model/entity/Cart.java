@@ -13,8 +13,6 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cartId")
     private int cartId;
-    @Column(name = "productName")
-    private String productName;
     @Column(name = "price")
     private int price;
     @Column(name = "quantity")
@@ -27,7 +25,8 @@ public class Cart {
     @JoinColumn(name = "orderDetailId")
     private OrderDetail orderDetail;
 
-    @OneToMany(mappedBy = "cart")
-    List<Product> products = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "productId")
+    private Product product;
 
 }
