@@ -2,6 +2,7 @@ package ra.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -44,16 +45,18 @@ public class UserController {
     private PasswordEncoder encoder;
 
     @GetMapping()
-    public List<Users> getAllCatalog(){
+    @PreAuthorize(" hasRole('MODERATOR') or hasRole('ADMIN')")
+    public List<Users> getAllUser(){
         return  userService.findAll();
     }
     @GetMapping("/{userId}")
-
+    @PreAuthorize(" hasRole('MODERATOR') or hasRole('ADMIN')")
     public Users getUserId(@PathVariable("userId") int userId){
         return userService.findByUserId(userId);
     }
 
-    @PostMapping("/update/{userId}")
+    @PostMapping("/delete/{userId}")
+    @PreAuthorize(" hasRole('MODERATOR') or hasRole('ADMIN')")
     public Users deleteUser(@PathVariable("userId") int userId, @RequestBody UserRequest userRequest){
             Users users = userService.findByUserId(userId);
             if (!userRequest.isUserStatus()){

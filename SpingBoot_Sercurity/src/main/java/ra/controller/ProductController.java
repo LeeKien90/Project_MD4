@@ -44,6 +44,7 @@ public class ProductController {
         return productService.findById(productId);
     }
     @PostMapping
+    @PreAuthorize(" hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<?> createProduct(@RequestBody ProductRequest productRequest){
         try {
             Product pro = new Product();
@@ -73,11 +74,12 @@ public class ProductController {
             return ResponseEntity.ok(pro);
         }catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.ok("Lỗi!");
+            return ResponseEntity.ok("ERROR!");
         }
 
     }
     @PutMapping("/{productId}")
+    @PreAuthorize(" hasRole('MODERATOR') or hasRole('ADMIN')")
     public Product updateProduct(@PathVariable("productId") int productId, @RequestBody ProductRequest productRequest){
         Product pro = productService.findById(productId);
         List<Image> listImage = imageService.findImageByIdProduct(productId);
@@ -111,6 +113,7 @@ public class ProductController {
         return productService.save(pro);
     }
     @DeleteMapping("/{productId}")
+    @PreAuthorize(" hasRole('MODERATOR') or hasRole('ADMIN')")
     public void deleteProduct(@PathVariable("productId") int productId){
         List<Image> listImage = imageService.findImageByIdProduct(productId);
         for (Image image: listImage) {

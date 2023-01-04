@@ -2,6 +2,7 @@ package ra.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ra.model.entity.Cart;
@@ -30,6 +31,7 @@ public class CartController {
     private CatalogRepository catalogRepository;
 
     @GetMapping
+    @PreAuthorize(" hasRole('USER')")
     public ResponseEntity<?> getAllCart() {
         CustomUserDetail customUserDetails = (CustomUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<Cart> listCart = cartService.findAllUserId(customUserDetails.getUserId());
@@ -48,6 +50,7 @@ public class CartController {
     }
 
     @PostMapping
+    @PreAuthorize(" hasRole('USER')")
     public ResponseEntity<?> addToCart(@RequestBody CartRequest cartRequest) {
 
         CustomUserDetail customUserDetails = (CustomUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -89,6 +92,7 @@ public class CartController {
     }
 
     @PutMapping("/{cartId}")
+    @PreAuthorize(" hasRole('USER')")
     public ResponseEntity<?> updateCart(@RequestParam("quantity") int quantity, @PathVariable("cartId") int cartId) {
         try {
             Cart cart = cartService.findById(cartId);
@@ -107,6 +111,7 @@ public class CartController {
     }
 
     @DeleteMapping("/{cartId}")
+    @PreAuthorize(" hasRole('USER')")
     public ResponseEntity<?> deleteCart(@PathVariable("cartId") int cartId){
         cartService.delete(cartId);
         return ResponseEntity.ok("Complete");
